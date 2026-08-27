@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import './App.css'
+import './App.scss'
 
 type Todo = {
   id: number
@@ -12,26 +12,7 @@ const App = () => {
   const [newTitle, setNewTitle] = useState('')
   const [loading, setLoading] = useState(false)
 
-  useEffect(() => {
-    fetchTodos()
-  }, [])
-
-  const fetchTodos = async () => {
-    try {
-      setLoading(true)
-      const res = await fetch('/api/todos')
-      if (res.ok) {
-        const data: Todo[] = await res.json()
-        setTodos(data)
-      }
-    } catch (err) {
-      console.error(err)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  const addTodo = async (e: any) => {
+  const addTodo = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const title = newTitle.trim()
     if (!title) return
@@ -79,6 +60,35 @@ const App = () => {
       console.error(err)
     }
   }
+
+  useEffect(() => {
+    let isMounted = true
+
+    const loadTodos = async () => {
+      try {
+        setLoading(true)
+        const res = await fetch('/api/todos')
+        if (!isMounted) return
+
+        if (res.ok) {
+          const data: Todo[] = await res.json()
+          setTodos(data)
+        }
+      } catch (err) {
+        console.error(err)
+      } finally {
+        if (isMounted) {
+          setLoading(false)
+        }
+      }
+    }
+
+    void loadTodos()
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
 
   return (
     <div className="todo-app">

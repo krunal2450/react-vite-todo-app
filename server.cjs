@@ -25,13 +25,13 @@ app.post('/api/todos', (req, res) => {
     if (!req.body.title) {
         return res.status(400).json({ error: 'Title field is required' });
     }
-    
+
     const newTodo = {
         id: todos.length > 0 ? Math.max(...todos.map(t => t.id)) + 1 : 1,
         title: req.body.title,
         taskDone: req.body.taskDone !== undefined ? req.body.taskDone : false
     };
-    
+
     todos.push(newTodo);
     res.status(201).json(newTodo);
 });
@@ -51,7 +51,7 @@ app.put('/api/todos/:id', (req, res) => {
 app.delete('/api/todos/:id', (req, res) => {
     const idToFind = parseInt(req.params.id);
     const exists = todos.some(t => t.id === idToFind);
-    
+
     if (!exists) return res.status(404).json({ error: 'Todo not found' });
 
     // Reassign array without the specified node to completely delete it

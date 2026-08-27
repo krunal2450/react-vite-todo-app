@@ -1,6 +1,16 @@
 # Todo App with Express Server
 
-A simple React + Vite todo application with a lightweight Express API for managing tasks. The app lets users add, complete, and delete todos while storing the data in memory on the server.
+A React + Vite todo application with a lightweight Express API for managing tasks. The app supports adding, toggling, and deleting todos, with the list stored in memory on the server for a simple client-server workflow.
+
+## Recent updates
+
+This project now includes:
+
+- SCSS styling with the stylesheet converted to Sass for cleaner, nested styles
+- Vitest + Testing Library test setup for frontend component validation
+- Coverage reporting via V8 with a 100% threshold target for the main app logic
+- ESLint-based linting and improved React hook safety checks
+- A production-ready Vite build pipeline
 
 ## Screenshot
 
@@ -12,14 +22,17 @@ A simple React + Vite todo application with a lightweight Express API for managi
 - Mark tasks as complete or incomplete
 - Delete tasks from the list
 - Fetch all tasks from a backend API
-- In-memory persistence for the current server session
-- Built with React, TypeScript, Vite, and Express
+- In-memory persistence during the current server session
+- Responsive, styled UI using SCSS
+- Automated tests and coverage validation
 
 ## Tech Stack
 
 - Frontend: React, TypeScript, Vite
 - Backend: Express.js
-- Styling: CSS
+- Styling: SCSS / Sass
+- Testing: Vitest, Testing Library
+- Linting: ESLint
 
 ## Project Structure
 
@@ -29,15 +42,19 @@ A simple React + Vite todo application with a lightweight Express API for managi
 │   └── todo-app-screenshot.svg
 ├── src/
 │   ├── App.tsx
-│   ├── App.css
+│   ├── App.scss
+│   ├── App.test.tsx
 │   ├── main.tsx
-│   └── index.css
+│   ├── index.css
+│   └── test/
+│       └── setup.ts
 ├── server.cjs
 ├── package.json
 ├── vite.config.ts
 ├── tsconfig.json
 ├── index.html
-└── README.md
+├── README.md
+└── pnpm-lock.yaml
 ```
 
 ## Run the app
@@ -77,6 +94,18 @@ Then open:
 ```bash
 http://localhost:5173
 ```
+
+## Run tests and coverage
+
+```bash
+npm test
+```
+
+```bash
+npm run coverage
+```
+
+The coverage command checks the app logic and enforces coverage thresholds.
 
 ## API example
 
@@ -146,8 +175,8 @@ Todo list updates immediately in the UI
 ## Notes
 
 - The todo list is stored in memory, so it resets when the server restarts.
-- This project is ideal for learning how React frontend state and a small Express backend can work together.
-- The app is easy to extend with database storage, filtering, or edit-in-place capabilities.
+- This project is ideal for learning how React frontend state, API calls, SCSS styling, and test automation work together.
+- The app is easy to extend with database storage, filtering, edit-in-place capabilities, and more complex features.
 
 ## License
 
