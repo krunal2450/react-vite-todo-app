@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import './App.scss'
 
 type Todo = {
@@ -12,7 +12,7 @@ const App = () => {
   const [newTitle, setNewTitle] = useState('')
   const [loading, setLoading] = useState(false)
 
-  const addTodo = async (e: React.FormEvent<HTMLFormElement>) => {
+  const addTodo = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const title = newTitle.trim()
     if (!title) return
@@ -31,9 +31,9 @@ const App = () => {
     } catch (err) {
       console.error(err)
     }
-  }
+  }, [newTitle])
 
-  const toggleTodo = async (todo: Todo) => {
+  const toggleTodo = useCallback(async (todo: Todo) => {
     const updated = { ...todo, taskDone: !todo.taskDone }
     try {
       const res = await fetch(`/api/todos/${todo.id}`, {
@@ -48,9 +48,9 @@ const App = () => {
     } catch (err) {
       console.error(err)
     }
-  }
+  }, [])
 
-  const deleteTodo = async (id: number) => {
+  const deleteTodo = useCallback(async (id: number) => {
     try {
       const res = await fetch(`/api/todos/${id}`, { method: 'DELETE' })
       if (res.status === 204) {
@@ -59,7 +59,7 @@ const App = () => {
     } catch (err) {
       console.error(err)
     }
-  }
+  }, [])
 
   useEffect(() => {
     let isMounted = true
@@ -89,6 +89,8 @@ const App = () => {
       isMounted = false
     }
   }, [])
+
+  const tasksCount = useMemo(() => todos.length, [todos.length])
 
   return (
     <div className="todo-app">
@@ -132,7 +134,7 @@ const App = () => {
         )}
       </section>
 
-      <footer className="todo-footer">Tasks: {todos.length}</footer>
+      <footer className="todo-footer">Tasks: {tasksCount}</footer>
     </div>
   )
 }
